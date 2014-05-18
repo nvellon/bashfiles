@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# MAINTAINER Nicolas Vellon <nvellon@gmail.com>
+
+# Variables en php/base
+# PHP_SRC_PATH=/usr/src/php-src
+# PHP_DST_PATH=/usr/local/php
+
+# PHP
+sudo cd /usr/src/php-src && git checkout PHP-5.5
+sudo export PHP_CONF=--prefix=$PHP_DST_PATH --with-config-file-path=$PHP_DST_PATH --with-config-file-scan-dir=$PHP_DST_PATH/conf.d --config-cache --localstatedir=/var --with-layout=GNU --disable-rpath
+sudo export PHP_EXT_CONF=--enable-mbstring --enable-mbregex --enable-phar --enable-posix --enable-soap --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-zip --enable-inline-optimization --enable-intl --with-icu-dir=/usr --with-curl=/usr/bin --with-gd --with-jpeg-dir=/usr --with-png-dir=shared,/usr --with-xpm-dir=/usr --with-freetype-dir=/usr --with-bz2=/usr --with-gettext --with-iconv-dir=/usr --with-mcrypt=/usr --with-mhash --with-zlib-dir=/usr --with-regex=php --with-pcre-regex=/usr --with-openssl --with-openssl-dir=/usr/bin --with-mysql-sock=/var/run/mysqld/mysqld.sock --with-mysqli=mysqlnd --with-sqlite3=/usr --with-pdo-mysql=mysqlnd --with-pdo-sqlite=/usr
+sudo mkdir $PHP_DST_PATH && cd $PHP_SRC_PATH && ./buildconf --force && ./configure $PHP_CONF --disable-cgi --with-readline --enable-pcntl --enable-cli --with-pear $PHP_EXT_CONF && make && make install
+sudo export PATH=$PATH:$PHP_DST_PATH/bin
+
+# XDebug
+sudo cd /usr/src/xdebug && git checkout xdebug_2_2 && phpize && ./configure --enable-xdebug && make
+sudo cp /usr/src/xdebug/modules/xdebug.so $PHP_DST_PATH/lib/php/xdebug.so
+sudo echo "zend_extension=$PHP_DST_PATH/lib/php/xdebug.so" >> $PHP_DST_PATH/lib/php.ini
+
+# Composer
+sudo curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+#sudo composer self-update
+
+# PHPUnit
+sudo cd /usr/src/phpunit && git checkout 4.1 && composer install
+sudo ln -s /usr/src/phpunit/phpunit /usr/local/bin/phpunit
+
+# PHP Code Sniffer
+sudo cd /usr/src/PHP_CodeSniffer && git checkout master && composer install
+sudo ln -s /usr/src/PHP_CodeSniffer/scripts/phpcs /usr/local/bin/phpcs

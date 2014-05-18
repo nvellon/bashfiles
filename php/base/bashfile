@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# MAINTAINER Nicolas Vellon <nvellon@gmail.com>
+
+sudo apt-get update
+sudo apt-get install -y libcurl4-openssl-dev autoconf libpcre3 libpcre3-dev re2c
+sudo apt-get install -y libsqlite3-dev sqlite3 libmysqlclient-dev libreadline-dev libzip-dev libxslt1-dev
+sudo apt-get install -y libicu-dev libmcrypt-dev libmhash-dev libpcre3-dev libjpeg-dev libpng12-dev libfreetype6-dev libbz2-dev libxpm-dev
+sudo cd /tmp && wget https://launchpad.net/ubuntu/+source/bison/2:2.7.1.dfsg-1/+build/4586386/+files/libbison-dev_2.7.1.dfsg-1_amd64.deb && dpkg -i libbison-dev_2.7.1.dfsg-1_amd64.deb && rm libbison-dev_2.7.1.dfsg-1_amd64.deb
+sudo cd /tmp && wget https://launchpad.net/ubuntu/+source/bison/2:2.7.1.dfsg-1/+build/4586386/+files/bison_2.7.1.dfsg-1_amd64.deb && dpkg -i bison_2.7.1.dfsg-1_amd64.deb && rm bison_2.7.1.dfsg-1_amd64.deb 
+
+sudo export PHP_SRC_PATH=/usr/src/php-src
+sudo export PHP_DST_PATH=/usr/local/php
+
+sudo ln -s /usr/lib/x86_64-linux-gnu/libpcre.a /usr/lib/libpcre.a
+sudo ln -s /usr/lib/x86_64-linux-gnu/libpcre.so /usr/lib/libpcre.so
+
+# Clone PHP
+sudo cd /usr/src && git clone https://github.com/php/php-src.git
+
+# Clone xdebug
+sudo cd /usr/src && git clone https://github.com/xdebug/xdebug.git
+
+# Clone PHPUnit
+sudo cd /usr/src && git clone https://github.com/sebastianbergmann/phpunit.git
+
+# Clone PHP Code Sniffer
+sudo cd /usr/src && git clone https://github.com/squizlabs/PHP_CodeSniffer.git
