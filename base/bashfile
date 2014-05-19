@@ -2,11 +2,29 @@
 
 # MAINTAINER Nicolas Vellon <nvellon@gmail.com>
 
-sudo apt-get update
-sudo apt-get upgrade -y
+# Create .bashrc if not exists
+if [[ ! -f ~/.bashrc ]]; then
+    sudo cp bashrc ~/.bashrc
+fi
 
+# Create command line aliases
+if [[ ! -f ~/.bash_aliases ]]; then
+    sudo cp bash_aliases ~/.bash_aliases
+fi
+
+# Upgrade packages
+sudo apt-get update && sudo apt-get upgrade -y
+
+# Reconfigure timezone
 sudo dpkg-reconfigure tzdata
 
-sudo apt-get -y install build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev 
-sudo apt-get -y install wget unzip curl
-sudo apt-get -y install git subversion
+# Install base packages
+sudo apt-get -y install build-essential zlib1g-dev libssl-dev libreadline6-dev libyaml-dev wget unzip curl vim git subversion
+
+# Create sudoer user if name provived
+if [ ! -z "$1" ]; then
+    sudo adduser "$1"
+    sudo usermod -aG sudo "$1"
+    sudo cp bashrc /home/"$1"/.bashrc
+    sudo cp bash_aliases /home/"$1"/.bash_aliases
+fi

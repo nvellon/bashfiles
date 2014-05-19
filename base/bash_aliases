@@ -1,0 +1,5 @@
+alias ll='ls -lha'
+alias h='history'
+alias apt-get='sudo apt-get'
+alias update='sudo apt-get update'
+alias upgrade='sudo apt-get update && sudo apt-get upgrade'
