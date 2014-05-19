@@ -1,3 +1,3 @@
 # bashfiles
 
-Repositorio de Bashfiles para automatizar deploy de entornos en producción.
+Repositorio de Bashfiles para automatizar deploy
