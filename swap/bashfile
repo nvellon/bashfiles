@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# MAINTAINER Nicolas Vellon <nvellon@gmail.com>
+
+if [ -z "$1" ]; then
+    echo "Falta indicar el tamaño del swapfile en Kbytes.\n"
+fi
+
+dd if=/dev/zero of=/.swap bs=1024 count=$1
+mkswap /.swap
+swapon /.swap
